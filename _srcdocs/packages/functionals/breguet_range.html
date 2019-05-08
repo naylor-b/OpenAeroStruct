@@ -1,0 +1,210 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>breguet_range.py &#8212; OpenAeroStruct 2.1.0 documentation</title>
+    <link rel="stylesheet" href="../../../_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/style.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="center_of_gravity.py" href="center_of_gravity.html" />
+    <link rel="prev" title="openaerostruct.functionals" href="../openaerostruct.functionals.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="center_of_gravity.html" title="center_of_gravity.py"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../openaerostruct.functionals.html" title="openaerostruct.functionals"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">OpenAeroStruct 2.1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Source Docs</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../openaerostruct.functionals.html" accesskey="U">openaerostruct.functionals</a> &#187;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h3><a href="../../../index.html">Table of Contents</a></h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../quick_example.html">Quick Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../aero_walkthrough.html">Aerodynamic Optimization Walkthrough</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../struct_example.html">Structural Optimization Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../aerostructural_walkthrough.html">Aerostructural Walkthrough</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../aerostructural_wingbox_walkthrough.html">Aerostructural with Wingbox Walkthrough</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../more_examples.html">More Examples</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../specialty_topics.html">Specialty Topics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../v1_v2_conversion.html">OpenAeroStruct v1 to v2 Conversion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../how_to_contribute.html">How to Contribute to OpenAeroStruct</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../../index.html">Source Docs</a></li>
+</ul>
+
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-openaerostruct.functionals.breguet_range">
+<span id="breguet-range-py"></span><span id="openaerostruct-functionals-breguet-range-py"></span><span id="index-0"></span><h1>breguet_range.py<a class="headerlink" href="#module-openaerostruct.functionals.breguet_range" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="openaerostruct.functionals.breguet_range.BreguetRange">
+<em class="property">class </em><code class="descclassname">openaerostruct.functionals.breguet_range.</code><code class="descname">BreguetRange</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/openaerostruct/functionals/breguet_range.html#BreguetRange"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openaerostruct.functionals.breguet_range.BreguetRange" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">openmdao.core.explicitcomponent.ExplicitComponent</span></code></p>
+<p>Computes the fuel burn using the Breguet range equation using
+the computed CL, CD, weight, and provided specific fuel consumption, speed of sound,
+Mach number, initial weight, and range.</p>
+<p>Note that we add information from each lifting surface.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>CL</strong><span class="classifier">float</span></dt><dd><p>Total coefficient of lift (CL) for the lifting surface.</p>
+</dd>
+<dt><strong>CD</strong><span class="classifier">float</span></dt><dd><p>Total coefficient of drag (CD) for the lifting surface.</p>
+</dd>
+<dt><strong>CT</strong><span class="classifier">float</span></dt><dd><p>Specific fuel consumption for the entire aircraft.</p>
+</dd>
+<dt><strong>speed_of_sound</strong><span class="classifier">float</span></dt><dd><p>The Mach speed, speed of sound, at the specified flight condition.</p>
+</dd>
+<dt><strong>R</strong><span class="classifier">float</span></dt><dd><p>The total range of the aircraft, used to backcalculate the fuel mass.</p>
+</dd>
+<dt><strong>Mach_number</strong><span class="classifier">float</span></dt><dd><p>The Mach number of the aircraft at the specified flight condition.</p>
+</dd>
+<dt><strong>W0</strong><span class="classifier">float</span></dt><dd><p>The operating empty weight of the aircraft, without fuel or structural
+mass. Supplied in kg despite being a ‘weight’ due to convention.</p>
+</dd>
+<dt><strong>load_factor</strong><span class="classifier">float</span></dt><dd><p>Multiplicative factor on gravity. 1.0 is normal flight; 2.5 would be
+for a 2.5g manuever.</p>
+</dd>
+<dt><strong>_structural_mass</strong><span class="classifier">float</span></dt><dd><p>Weight of a single lifting surface’s structural spar.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>fuelburn</strong><span class="classifier">float</span></dt><dd><p>Computed fuel burn in kg based on the Breguet range equation.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="method">
+<dt id="openaerostruct.functionals.breguet_range.BreguetRange.add_discrete_input">
+<code class="descname">add_discrete_input</code><span class="sig-paren">(</span><em>self</em>, <em>name</em>, <em>val</em>, <em>desc=''</em><span class="sig-paren">)</span><a class="headerlink" href="#openaerostruct.functionals.breguet_range.BreguetRange.add_discrete_input" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a discrete input variable to the component.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>name</strong><span class="classifier">str</span></dt><dd><p>name of the variable in this component’s namespace.</p>
+</dd>
+<dt><strong>val</strong><span class="classifier">a picklable object</span></dt><dd><p>The initial value of the variable being added.</p>
+</dd>
+<dt><strong>desc</strong><span class="classifier">str</span></dt><dd><p>description of the variable</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>dict</strong><span class="classifier"></span></dt><dd><p>metadata for added variable</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="openaerostruct.functionals.breguet_range.BreguetRange.add_discrete_output">
+<code class="descname">add_discrete_output</code><span class="sig-paren">(</span><em>self</em>, <em>name</em>, <em>val</em>, <em>desc=''</em><span class="sig-paren">)</span><a class="headerlink" href="#openaerostruct.functionals.breguet_range.BreguetRange.add_discrete_output" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add an output variable to the component.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>name</strong><span class="classifier">str</span></dt><dd><p>name of the variable in this component’s namespace.</p>
+</dd>
+<dt><strong>val</strong><span class="classifier">a picklable object</span></dt><dd><p>The initial value of the variable being added.</p>
+</dd>
+<dt><strong>desc</strong><span class="classifier">str</span></dt><dd><p>description of the variable.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>dict</strong><span class="classifier"></span></dt><dd><p>metadata for added variable</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<div class="toctree-wrapper compound">
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="center_of_gravity.html" title="center_of_gravity.py"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../openaerostruct.functionals.html" title="openaerostruct.functionals"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">OpenAeroStruct 2.1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Source Docs</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../openaerostruct.functionals.html" >openaerostruct.functionals</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2018, John Jasa, Dr. John Hwang, Justin S. Gray.
+      Last updated on May 08, 2019.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.0.1.
+    </div>
+  </body>
+</html>

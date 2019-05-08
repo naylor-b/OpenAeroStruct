@@ -1,0 +1,157 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>geometry_mesh.py &#8212; OpenAeroStruct 2.1.0 documentation</title>
+    <link rel="stylesheet" href="../../../_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/style.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="geometry_mesh_transformations.py" href="geometry_mesh_transformations.html" />
+    <link rel="prev" title="geometry_group.py" href="geometry_group.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="geometry_mesh_transformations.html" title="geometry_mesh_transformations.py"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="geometry_group.html" title="geometry_group.py"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">OpenAeroStruct 2.1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Source Docs</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../openaerostruct.geometry.html" accesskey="U">openaerostruct.geometry</a> &#187;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h3><a href="../../../index.html">Table of Contents</a></h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../quick_example.html">Quick Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../aero_walkthrough.html">Aerodynamic Optimization Walkthrough</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../struct_example.html">Structural Optimization Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../aerostructural_walkthrough.html">Aerostructural Walkthrough</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../aerostructural_wingbox_walkthrough.html">Aerostructural with Wingbox Walkthrough</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../more_examples.html">More Examples</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../specialty_topics.html">Specialty Topics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../v1_v2_conversion.html">OpenAeroStruct v1 to v2 Conversion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../how_to_contribute.html">How to Contribute to OpenAeroStruct</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../../index.html">Source Docs</a></li>
+</ul>
+
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-openaerostruct.geometry.geometry_mesh">
+<span id="geometry-mesh-py"></span><span id="openaerostruct-geometry-geometry-mesh-py"></span><span id="index-0"></span><h1>geometry_mesh.py<a class="headerlink" href="#module-openaerostruct.geometry.geometry_mesh" title="Permalink to this headline">¶</a></h1>
+<p>Group that manipulates geometry mesh based on high-level design parameters.</p>
+<dl class="class">
+<dt id="openaerostruct.geometry.geometry_mesh.GeometryMesh">
+<em class="property">class </em><code class="descclassname">openaerostruct.geometry.geometry_mesh.</code><code class="descname">GeometryMesh</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/openaerostruct/geometry/geometry_mesh.html#GeometryMesh"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openaerostruct.geometry.geometry_mesh.GeometryMesh" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">openmdao.core.group.Group</span></code></p>
+<p>OpenMDAO group that performs mesh manipulation functions. It reads in
+the initial mesh from the surface dictionary and outputs the altered
+mesh based on the geometric design variables.</p>
+<p>Depending on the design variables selected or the supplied geometry information,
+only some of the follow parameters will actually be given to this component.
+If parameters are not active (they do not deform the mesh), then
+they will not be given to this component.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>sweep</strong><span class="classifier">float</span></dt><dd><p>Shearing sweep angle in degrees.</p>
+</dd>
+<dt><strong>dihedral</strong><span class="classifier">float</span></dt><dd><p>Dihedral angle in degrees.</p>
+</dd>
+<dt><strong>twist[ny]</strong><span class="classifier">numpy array</span></dt><dd><p>1-D array of rotation angles for each wing slice in degrees.</p>
+</dd>
+<dt><strong>chord_dist[ny]</strong><span class="classifier">numpy array</span></dt><dd><p>Chord length for each panel edge.</p>
+</dd>
+<dt><strong>taper</strong><span class="classifier">float</span></dt><dd><p>Taper ratio for the wing; 1 is untapered, 0 goes to a point at the tip.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>mesh[nx, ny, 3]</strong><span class="classifier">numpy array</span></dt><dd><p>Modified mesh based on the initial mesh in the surface dictionary and
+the geometric design variables.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<div class="toctree-wrapper compound">
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="geometry_mesh_transformations.html" title="geometry_mesh_transformations.py"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="geometry_group.html" title="geometry_group.py"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">OpenAeroStruct 2.1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Source Docs</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../openaerostruct.geometry.html" >openaerostruct.geometry</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2018, John Jasa, Dr. John Hwang, Justin S. Gray.
+      Last updated on May 08, 2019.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.0.1.
+    </div>
+  </body>
+</html>

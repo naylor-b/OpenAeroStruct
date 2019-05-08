@@ -1,0 +1,777 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>geometry_mesh_transformations.py &#8212; OpenAeroStruct 2.1.0 documentation</title>
+    <link rel="stylesheet" href="../../../_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/style.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="monotonic_constraint.py" href="monotonic_constraint.html" />
+    <link rel="prev" title="geometry_mesh.py" href="geometry_mesh.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="monotonic_constraint.html" title="monotonic_constraint.py"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="geometry_mesh.html" title="geometry_mesh.py"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">OpenAeroStruct 2.1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Source Docs</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../openaerostruct.geometry.html" accesskey="U">openaerostruct.geometry</a> &#187;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h3><a href="../../../index.html">Table of Contents</a></h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../quick_example.html">Quick Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../aero_walkthrough.html">Aerodynamic Optimization Walkthrough</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../struct_example.html">Structural Optimization Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../aerostructural_walkthrough.html">Aerostructural Walkthrough</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../aerostructural_wingbox_walkthrough.html">Aerostructural with Wingbox Walkthrough</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../more_examples.html">More Examples</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../specialty_topics.html">Specialty Topics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../v1_v2_conversion.html">OpenAeroStruct v1 to v2 Conversion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../how_to_contribute.html">How to Contribute to OpenAeroStruct</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../../index.html">Source Docs</a></li>
+</ul>
+
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-openaerostruct.geometry.geometry_mesh_transformations">
+<span id="geometry-mesh-transformations-py"></span><span id="openaerostruct-geometry-geometry-mesh-transformations-py"></span><span id="index-0"></span><h1>geometry_mesh_transformations.py<a class="headerlink" href="#module-openaerostruct.geometry.geometry_mesh_transformations" title="Permalink to this headline">¶</a></h1>
+<p>A set of components that manipulate geometry mesh
+based on high-level design parameters.</p>
+<dl class="class">
+<dt id="openaerostruct.geometry.geometry_mesh_transformations.Dihedral">
+<em class="property">class </em><code class="descclassname">openaerostruct.geometry.geometry_mesh_transformations.</code><code class="descname">Dihedral</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/openaerostruct/geometry/geometry_mesh_transformations.html#Dihedral"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openaerostruct.geometry.geometry_mesh_transformations.Dihedral" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">openmdao.core.explicitcomponent.ExplicitComponent</span></code></p>
+<p>OpenMDAO component that manipulates the mesh by applying dihedral angle. Positive angles up.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>mesh[nx, ny, 3]</strong><span class="classifier">numpy array</span></dt><dd><p>Nodal mesh defining the initial aerodynamic surface.</p>
+</dd>
+<dt><strong>dihedral</strong><span class="classifier">float</span></dt><dd><p>Dihedral angle in degrees.</p>
+</dd>
+<dt><strong>symmetry</strong><span class="classifier">boolean</span></dt><dd><p>Flag set to true if surface is reflected about y=0 plane.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>mesh[nx, ny, 3]</strong><span class="classifier">numpy array</span></dt><dd><p>Nodal mesh defining the aerodynamic surface with dihedral angle.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="method">
+<dt id="openaerostruct.geometry.geometry_mesh_transformations.Dihedral.add_discrete_input">
+<code class="descname">add_discrete_input</code><span class="sig-paren">(</span><em>self</em>, <em>name</em>, <em>val</em>, <em>desc=''</em><span class="sig-paren">)</span><a class="headerlink" href="#openaerostruct.geometry.geometry_mesh_transformations.Dihedral.add_discrete_input" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a discrete input variable to the component.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>name</strong><span class="classifier">str</span></dt><dd><p>name of the variable in this component’s namespace.</p>
+</dd>
+<dt><strong>val</strong><span class="classifier">a picklable object</span></dt><dd><p>The initial value of the variable being added.</p>
+</dd>
+<dt><strong>desc</strong><span class="classifier">str</span></dt><dd><p>description of the variable</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>dict</strong><span class="classifier"></span></dt><dd><p>metadata for added variable</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="openaerostruct.geometry.geometry_mesh_transformations.Dihedral.add_discrete_output">
+<code class="descname">add_discrete_output</code><span class="sig-paren">(</span><em>self</em>, <em>name</em>, <em>val</em>, <em>desc=''</em><span class="sig-paren">)</span><a class="headerlink" href="#openaerostruct.geometry.geometry_mesh_transformations.Dihedral.add_discrete_output" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add an output variable to the component.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>name</strong><span class="classifier">str</span></dt><dd><p>name of the variable in this component’s namespace.</p>
+</dd>
+<dt><strong>val</strong><span class="classifier">a picklable object</span></dt><dd><p>The initial value of the variable being added.</p>
+</dd>
+<dt><strong>desc</strong><span class="classifier">str</span></dt><dd><p>description of the variable.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>dict</strong><span class="classifier"></span></dt><dd><p>metadata for added variable</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="openaerostruct.geometry.geometry_mesh_transformations.Rotate">
+<em class="property">class </em><code class="descclassname">openaerostruct.geometry.geometry_mesh_transformations.</code><code class="descname">Rotate</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/openaerostruct/geometry/geometry_mesh_transformations.html#Rotate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openaerostruct.geometry.geometry_mesh_transformations.Rotate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">openmdao.core.explicitcomponent.ExplicitComponent</span></code></p>
+<p>OpenMDAO component that manipulates the mesh by compute rotation matrices given mesh and
+rotation angles in degrees.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>mesh[nx, ny, 3]</strong><span class="classifier">numpy array</span></dt><dd><p>Nodal mesh defining the initial aerodynamic surface.</p>
+</dd>
+<dt><strong>theta_y[ny]</strong><span class="classifier">numpy array</span></dt><dd><p>1-D array of rotation angles about y-axis for each wing slice in degrees.</p>
+</dd>
+<dt><strong>symmetry</strong><span class="classifier">boolean</span></dt><dd><p>Flag set to True if surface is reflected about y=0 plane.</p>
+</dd>
+<dt><strong>rotate_x</strong><span class="classifier">boolean</span></dt><dd><p>Flag set to True if the user desires the twist variable to always be
+applied perpendicular to the wing (say, in the case of a winglet).</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>mesh[nx, ny, 3]</strong><span class="classifier">numpy array</span></dt><dd><p>Nodal mesh defining the twisted aerodynamic surface.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="method">
+<dt id="openaerostruct.geometry.geometry_mesh_transformations.Rotate.add_discrete_input">
+<code class="descname">add_discrete_input</code><span class="sig-paren">(</span><em>self</em>, <em>name</em>, <em>val</em>, <em>desc=''</em><span class="sig-paren">)</span><a class="headerlink" href="#openaerostruct.geometry.geometry_mesh_transformations.Rotate.add_discrete_input" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a discrete input variable to the component.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>name</strong><span class="classifier">str</span></dt><dd><p>name of the variable in this component’s namespace.</p>
+</dd>
+<dt><strong>val</strong><span class="classifier">a picklable object</span></dt><dd><p>The initial value of the variable being added.</p>
+</dd>
+<dt><strong>desc</strong><span class="classifier">str</span></dt><dd><p>description of the variable</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>dict</strong><span class="classifier"></span></dt><dd><p>metadata for added variable</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="openaerostruct.geometry.geometry_mesh_transformations.Rotate.add_discrete_output">
+<code class="descname">add_discrete_output</code><span class="sig-paren">(</span><em>self</em>, <em>name</em>, <em>val</em>, <em>desc=''</em><span class="sig-paren">)</span><a class="headerlink" href="#openaerostruct.geometry.geometry_mesh_transformations.Rotate.add_discrete_output" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add an output variable to the component.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>name</strong><span class="classifier">str</span></dt><dd><p>name of the variable in this component’s namespace.</p>
+</dd>
+<dt><strong>val</strong><span class="classifier">a picklable object</span></dt><dd><p>The initial value of the variable being added.</p>
+</dd>
+<dt><strong>desc</strong><span class="classifier">str</span></dt><dd><p>description of the variable.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>dict</strong><span class="classifier"></span></dt><dd><p>metadata for added variable</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="openaerostruct.geometry.geometry_mesh_transformations.ScaleX">
+<em class="property">class </em><code class="descclassname">openaerostruct.geometry.geometry_mesh_transformations.</code><code class="descname">ScaleX</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/openaerostruct/geometry/geometry_mesh_transformations.html#ScaleX"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openaerostruct.geometry.geometry_mesh_transformations.ScaleX" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">openmdao.core.explicitcomponent.ExplicitComponent</span></code></p>
+<p>OpenMDAO component that manipulates the mesh by modifying the chords along the span of the
+wing by scaling only the x-coord.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>mesh[nx, ny, 3]</strong><span class="classifier">numpy array</span></dt><dd><p>Nodal mesh defining the initial aerodynamic surface.</p>
+</dd>
+<dt><strong>chord[ny]</strong><span class="classifier">numpy array</span></dt><dd><p>Chord length for each panel edge.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>mesh[nx, ny, 3]</strong><span class="classifier">numpy array</span></dt><dd><p>Nodal mesh with the new chord lengths.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="method">
+<dt id="openaerostruct.geometry.geometry_mesh_transformations.ScaleX.add_discrete_input">
+<code class="descname">add_discrete_input</code><span class="sig-paren">(</span><em>self</em>, <em>name</em>, <em>val</em>, <em>desc=''</em><span class="sig-paren">)</span><a class="headerlink" href="#openaerostruct.geometry.geometry_mesh_transformations.ScaleX.add_discrete_input" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a discrete input variable to the component.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>name</strong><span class="classifier">str</span></dt><dd><p>name of the variable in this component’s namespace.</p>
+</dd>
+<dt><strong>val</strong><span class="classifier">a picklable object</span></dt><dd><p>The initial value of the variable being added.</p>
+</dd>
+<dt><strong>desc</strong><span class="classifier">str</span></dt><dd><p>description of the variable</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>dict</strong><span class="classifier"></span></dt><dd><p>metadata for added variable</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="openaerostruct.geometry.geometry_mesh_transformations.ScaleX.add_discrete_output">
+<code class="descname">add_discrete_output</code><span class="sig-paren">(</span><em>self</em>, <em>name</em>, <em>val</em>, <em>desc=''</em><span class="sig-paren">)</span><a class="headerlink" href="#openaerostruct.geometry.geometry_mesh_transformations.ScaleX.add_discrete_output" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add an output variable to the component.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>name</strong><span class="classifier">str</span></dt><dd><p>name of the variable in this component’s namespace.</p>
+</dd>
+<dt><strong>val</strong><span class="classifier">a picklable object</span></dt><dd><p>The initial value of the variable being added.</p>
+</dd>
+<dt><strong>desc</strong><span class="classifier">str</span></dt><dd><p>description of the variable.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>dict</strong><span class="classifier"></span></dt><dd><p>metadata for added variable</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="openaerostruct.geometry.geometry_mesh_transformations.ShearX">
+<em class="property">class </em><code class="descclassname">openaerostruct.geometry.geometry_mesh_transformations.</code><code class="descname">ShearX</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/openaerostruct/geometry/geometry_mesh_transformations.html#ShearX"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openaerostruct.geometry.geometry_mesh_transformations.ShearX" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">openmdao.core.explicitcomponent.ExplicitComponent</span></code></p>
+<p>OpenMDAO component that manipulates the mesh by shearing the wing in the x direction
+(distributed sweep).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>mesh[nx, ny, 3]</strong><span class="classifier">numpy array</span></dt><dd><p>Nodal mesh defining the initial aerodynamic surface.</p>
+</dd>
+<dt><strong>xshear[ny]</strong><span class="classifier">numpy array</span></dt><dd><p>Distance to translate wing in x direction.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>mesh[nx, ny, 3]</strong><span class="classifier">numpy array</span></dt><dd><p>Nodal mesh with the new chord lengths.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="method">
+<dt id="openaerostruct.geometry.geometry_mesh_transformations.ShearX.add_discrete_input">
+<code class="descname">add_discrete_input</code><span class="sig-paren">(</span><em>self</em>, <em>name</em>, <em>val</em>, <em>desc=''</em><span class="sig-paren">)</span><a class="headerlink" href="#openaerostruct.geometry.geometry_mesh_transformations.ShearX.add_discrete_input" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a discrete input variable to the component.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>name</strong><span class="classifier">str</span></dt><dd><p>name of the variable in this component’s namespace.</p>
+</dd>
+<dt><strong>val</strong><span class="classifier">a picklable object</span></dt><dd><p>The initial value of the variable being added.</p>
+</dd>
+<dt><strong>desc</strong><span class="classifier">str</span></dt><dd><p>description of the variable</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>dict</strong><span class="classifier"></span></dt><dd><p>metadata for added variable</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="openaerostruct.geometry.geometry_mesh_transformations.ShearX.add_discrete_output">
+<code class="descname">add_discrete_output</code><span class="sig-paren">(</span><em>self</em>, <em>name</em>, <em>val</em>, <em>desc=''</em><span class="sig-paren">)</span><a class="headerlink" href="#openaerostruct.geometry.geometry_mesh_transformations.ShearX.add_discrete_output" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add an output variable to the component.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>name</strong><span class="classifier">str</span></dt><dd><p>name of the variable in this component’s namespace.</p>
+</dd>
+<dt><strong>val</strong><span class="classifier">a picklable object</span></dt><dd><p>The initial value of the variable being added.</p>
+</dd>
+<dt><strong>desc</strong><span class="classifier">str</span></dt><dd><p>description of the variable.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>dict</strong><span class="classifier"></span></dt><dd><p>metadata for added variable</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="openaerostruct.geometry.geometry_mesh_transformations.ShearY">
+<em class="property">class </em><code class="descclassname">openaerostruct.geometry.geometry_mesh_transformations.</code><code class="descname">ShearY</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/openaerostruct/geometry/geometry_mesh_transformations.html#ShearY"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openaerostruct.geometry.geometry_mesh_transformations.ShearY" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">openmdao.core.explicitcomponent.ExplicitComponent</span></code></p>
+<p>OpenMDAO component that manipulates the mesh by shearing the wing in the y direction
+(distributed sweep).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>mesh[nx, ny, 3]</strong><span class="classifier">numpy array</span></dt><dd><p>Nodal mesh defining the initial aerodynamic surface.</p>
+</dd>
+<dt><strong>yshear[ny]</strong><span class="classifier">numpy array</span></dt><dd><p>Distance to translate wing in y direction.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>mesh[nx, ny, 3]</strong><span class="classifier">numpy array</span></dt><dd><p>Nodal mesh with the new chord lengths.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="method">
+<dt id="openaerostruct.geometry.geometry_mesh_transformations.ShearY.add_discrete_input">
+<code class="descname">add_discrete_input</code><span class="sig-paren">(</span><em>self</em>, <em>name</em>, <em>val</em>, <em>desc=''</em><span class="sig-paren">)</span><a class="headerlink" href="#openaerostruct.geometry.geometry_mesh_transformations.ShearY.add_discrete_input" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a discrete input variable to the component.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>name</strong><span class="classifier">str</span></dt><dd><p>name of the variable in this component’s namespace.</p>
+</dd>
+<dt><strong>val</strong><span class="classifier">a picklable object</span></dt><dd><p>The initial value of the variable being added.</p>
+</dd>
+<dt><strong>desc</strong><span class="classifier">str</span></dt><dd><p>description of the variable</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>dict</strong><span class="classifier"></span></dt><dd><p>metadata for added variable</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="openaerostruct.geometry.geometry_mesh_transformations.ShearY.add_discrete_output">
+<code class="descname">add_discrete_output</code><span class="sig-paren">(</span><em>self</em>, <em>name</em>, <em>val</em>, <em>desc=''</em><span class="sig-paren">)</span><a class="headerlink" href="#openaerostruct.geometry.geometry_mesh_transformations.ShearY.add_discrete_output" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add an output variable to the component.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>name</strong><span class="classifier">str</span></dt><dd><p>name of the variable in this component’s namespace.</p>
+</dd>
+<dt><strong>val</strong><span class="classifier">a picklable object</span></dt><dd><p>The initial value of the variable being added.</p>
+</dd>
+<dt><strong>desc</strong><span class="classifier">str</span></dt><dd><p>description of the variable.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>dict</strong><span class="classifier"></span></dt><dd><p>metadata for added variable</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="openaerostruct.geometry.geometry_mesh_transformations.ShearZ">
+<em class="property">class </em><code class="descclassname">openaerostruct.geometry.geometry_mesh_transformations.</code><code class="descname">ShearZ</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/openaerostruct/geometry/geometry_mesh_transformations.html#ShearZ"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openaerostruct.geometry.geometry_mesh_transformations.ShearZ" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">openmdao.core.explicitcomponent.ExplicitComponent</span></code></p>
+<p>OpenMDAO component that manipulates the mesh by shearing the wing in the z direction
+(distributed sweep).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>mesh[nx, ny, 3]</strong><span class="classifier">numpy array</span></dt><dd><p>Nodal mesh defining the initial aerodynamic surface.</p>
+</dd>
+<dt><strong>zshear[ny]</strong><span class="classifier">numpy array</span></dt><dd><p>Distance to translate wing in z direction.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>mesh[nx, ny, 3]</strong><span class="classifier">numpy array</span></dt><dd><p>Nodal mesh with the new chord lengths.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="method">
+<dt id="openaerostruct.geometry.geometry_mesh_transformations.ShearZ.add_discrete_input">
+<code class="descname">add_discrete_input</code><span class="sig-paren">(</span><em>self</em>, <em>name</em>, <em>val</em>, <em>desc=''</em><span class="sig-paren">)</span><a class="headerlink" href="#openaerostruct.geometry.geometry_mesh_transformations.ShearZ.add_discrete_input" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a discrete input variable to the component.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>name</strong><span class="classifier">str</span></dt><dd><p>name of the variable in this component’s namespace.</p>
+</dd>
+<dt><strong>val</strong><span class="classifier">a picklable object</span></dt><dd><p>The initial value of the variable being added.</p>
+</dd>
+<dt><strong>desc</strong><span class="classifier">str</span></dt><dd><p>description of the variable</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>dict</strong><span class="classifier"></span></dt><dd><p>metadata for added variable</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="openaerostruct.geometry.geometry_mesh_transformations.ShearZ.add_discrete_output">
+<code class="descname">add_discrete_output</code><span class="sig-paren">(</span><em>self</em>, <em>name</em>, <em>val</em>, <em>desc=''</em><span class="sig-paren">)</span><a class="headerlink" href="#openaerostruct.geometry.geometry_mesh_transformations.ShearZ.add_discrete_output" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add an output variable to the component.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>name</strong><span class="classifier">str</span></dt><dd><p>name of the variable in this component’s namespace.</p>
+</dd>
+<dt><strong>val</strong><span class="classifier">a picklable object</span></dt><dd><p>The initial value of the variable being added.</p>
+</dd>
+<dt><strong>desc</strong><span class="classifier">str</span></dt><dd><p>description of the variable.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>dict</strong><span class="classifier"></span></dt><dd><p>metadata for added variable</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="openaerostruct.geometry.geometry_mesh_transformations.Stretch">
+<em class="property">class </em><code class="descclassname">openaerostruct.geometry.geometry_mesh_transformations.</code><code class="descname">Stretch</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/openaerostruct/geometry/geometry_mesh_transformations.html#Stretch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openaerostruct.geometry.geometry_mesh_transformations.Stretch" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">openmdao.core.explicitcomponent.ExplicitComponent</span></code></p>
+<p>OpenMDAO component that manipulates the mesh by stretching the mesh in spanwise direction to
+reach specified span</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>mesh[nx, ny, 3]</strong><span class="classifier">numpy array</span></dt><dd><p>Nodal mesh defining the initial aerodynamic surface.</p>
+</dd>
+<dt><strong>span</strong><span class="classifier">float</span></dt><dd><p>Relative stetch ratio in the spanwise direction.</p>
+</dd>
+<dt><strong>symmetry</strong><span class="classifier">boolean</span></dt><dd><p>Flag set to true if surface is reflected about y=0 plane.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>mesh[nx, ny, 3]</strong><span class="classifier">numpy array</span></dt><dd><p>Nodal mesh defining the stretched aerodynamic surface.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="method">
+<dt id="openaerostruct.geometry.geometry_mesh_transformations.Stretch.add_discrete_input">
+<code class="descname">add_discrete_input</code><span class="sig-paren">(</span><em>self</em>, <em>name</em>, <em>val</em>, <em>desc=''</em><span class="sig-paren">)</span><a class="headerlink" href="#openaerostruct.geometry.geometry_mesh_transformations.Stretch.add_discrete_input" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a discrete input variable to the component.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>name</strong><span class="classifier">str</span></dt><dd><p>name of the variable in this component’s namespace.</p>
+</dd>
+<dt><strong>val</strong><span class="classifier">a picklable object</span></dt><dd><p>The initial value of the variable being added.</p>
+</dd>
+<dt><strong>desc</strong><span class="classifier">str</span></dt><dd><p>description of the variable</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>dict</strong><span class="classifier"></span></dt><dd><p>metadata for added variable</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="openaerostruct.geometry.geometry_mesh_transformations.Stretch.add_discrete_output">
+<code class="descname">add_discrete_output</code><span class="sig-paren">(</span><em>self</em>, <em>name</em>, <em>val</em>, <em>desc=''</em><span class="sig-paren">)</span><a class="headerlink" href="#openaerostruct.geometry.geometry_mesh_transformations.Stretch.add_discrete_output" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add an output variable to the component.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>name</strong><span class="classifier">str</span></dt><dd><p>name of the variable in this component’s namespace.</p>
+</dd>
+<dt><strong>val</strong><span class="classifier">a picklable object</span></dt><dd><p>The initial value of the variable being added.</p>
+</dd>
+<dt><strong>desc</strong><span class="classifier">str</span></dt><dd><p>description of the variable.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>dict</strong><span class="classifier"></span></dt><dd><p>metadata for added variable</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="openaerostruct.geometry.geometry_mesh_transformations.Sweep">
+<em class="property">class </em><code class="descclassname">openaerostruct.geometry.geometry_mesh_transformations.</code><code class="descname">Sweep</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/openaerostruct/geometry/geometry_mesh_transformations.html#Sweep"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openaerostruct.geometry.geometry_mesh_transformations.Sweep" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">openmdao.core.explicitcomponent.ExplicitComponent</span></code></p>
+<p>OpenMDAO component that manipulates the mesh applying shearing sweep. Positive sweeps back.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>mesh[nx, ny, 3]</strong><span class="classifier">numpy array</span></dt><dd><p>Nodal mesh defining the initial aerodynamic surface.</p>
+</dd>
+<dt><strong>sweep</strong><span class="classifier">float</span></dt><dd><p>Shearing sweep angle in degrees.</p>
+</dd>
+<dt><strong>symmetry</strong><span class="classifier">boolean</span></dt><dd><p>Flag set to true if surface is reflected about y=0 plane.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>mesh[nx, ny, 3]</strong><span class="classifier">numpy array</span></dt><dd><p>Nodal mesh defining the swept aerodynamic surface.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="method">
+<dt id="openaerostruct.geometry.geometry_mesh_transformations.Sweep.add_discrete_input">
+<code class="descname">add_discrete_input</code><span class="sig-paren">(</span><em>self</em>, <em>name</em>, <em>val</em>, <em>desc=''</em><span class="sig-paren">)</span><a class="headerlink" href="#openaerostruct.geometry.geometry_mesh_transformations.Sweep.add_discrete_input" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a discrete input variable to the component.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>name</strong><span class="classifier">str</span></dt><dd><p>name of the variable in this component’s namespace.</p>
+</dd>
+<dt><strong>val</strong><span class="classifier">a picklable object</span></dt><dd><p>The initial value of the variable being added.</p>
+</dd>
+<dt><strong>desc</strong><span class="classifier">str</span></dt><dd><p>description of the variable</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>dict</strong><span class="classifier"></span></dt><dd><p>metadata for added variable</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="openaerostruct.geometry.geometry_mesh_transformations.Sweep.add_discrete_output">
+<code class="descname">add_discrete_output</code><span class="sig-paren">(</span><em>self</em>, <em>name</em>, <em>val</em>, <em>desc=''</em><span class="sig-paren">)</span><a class="headerlink" href="#openaerostruct.geometry.geometry_mesh_transformations.Sweep.add_discrete_output" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add an output variable to the component.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>name</strong><span class="classifier">str</span></dt><dd><p>name of the variable in this component’s namespace.</p>
+</dd>
+<dt><strong>val</strong><span class="classifier">a picklable object</span></dt><dd><p>The initial value of the variable being added.</p>
+</dd>
+<dt><strong>desc</strong><span class="classifier">str</span></dt><dd><p>description of the variable.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>dict</strong><span class="classifier"></span></dt><dd><p>metadata for added variable</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="openaerostruct.geometry.geometry_mesh_transformations.Taper">
+<em class="property">class </em><code class="descclassname">openaerostruct.geometry.geometry_mesh_transformations.</code><code class="descname">Taper</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/openaerostruct/geometry/geometry_mesh_transformations.html#Taper"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openaerostruct.geometry.geometry_mesh_transformations.Taper" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">openmdao.core.explicitcomponent.ExplicitComponent</span></code></p>
+<p>OpenMDAO component that manipulates the mesh by altering the spanwise chord linearly to produce
+a tapered wing. Note that we apply taper around the quarter-chord line.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>taper</strong><span class="classifier">float</span></dt><dd><p>Taper ratio for the wing; 1 is untapered, 0 goes to a point at the tip.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>mesh[nx, ny, 3]</strong><span class="classifier">numpy array</span></dt><dd><p>Nodal mesh defining the tapered aerodynamic surface.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="method">
+<dt id="openaerostruct.geometry.geometry_mesh_transformations.Taper.add_discrete_input">
+<code class="descname">add_discrete_input</code><span class="sig-paren">(</span><em>self</em>, <em>name</em>, <em>val</em>, <em>desc=''</em><span class="sig-paren">)</span><a class="headerlink" href="#openaerostruct.geometry.geometry_mesh_transformations.Taper.add_discrete_input" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a discrete input variable to the component.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>name</strong><span class="classifier">str</span></dt><dd><p>name of the variable in this component’s namespace.</p>
+</dd>
+<dt><strong>val</strong><span class="classifier">a picklable object</span></dt><dd><p>The initial value of the variable being added.</p>
+</dd>
+<dt><strong>desc</strong><span class="classifier">str</span></dt><dd><p>description of the variable</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>dict</strong><span class="classifier"></span></dt><dd><p>metadata for added variable</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="openaerostruct.geometry.geometry_mesh_transformations.Taper.add_discrete_output">
+<code class="descname">add_discrete_output</code><span class="sig-paren">(</span><em>self</em>, <em>name</em>, <em>val</em>, <em>desc=''</em><span class="sig-paren">)</span><a class="headerlink" href="#openaerostruct.geometry.geometry_mesh_transformations.Taper.add_discrete_output" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add an output variable to the component.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>name</strong><span class="classifier">str</span></dt><dd><p>name of the variable in this component’s namespace.</p>
+</dd>
+<dt><strong>val</strong><span class="classifier">a picklable object</span></dt><dd><p>The initial value of the variable being added.</p>
+</dd>
+<dt><strong>desc</strong><span class="classifier">str</span></dt><dd><p>description of the variable.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>dict</strong><span class="classifier"></span></dt><dd><p>metadata for added variable</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<div class="toctree-wrapper compound">
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="monotonic_constraint.html" title="monotonic_constraint.py"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="geometry_mesh.html" title="geometry_mesh.py"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">OpenAeroStruct 2.1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Source Docs</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../openaerostruct.geometry.html" >openaerostruct.geometry</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2018, John Jasa, Dr. John Hwang, Justin S. Gray.
+      Last updated on May 08, 2019.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.0.1.
+    </div>
+  </body>
+</html>
