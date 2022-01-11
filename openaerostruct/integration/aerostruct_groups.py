@@ -211,10 +211,12 @@ class AerostructPoint(om.Group):
         self.options.declare(
             "rotational", False, types=bool, desc="Set to True to turn on support for computing angular velocities"
         )
+        self.options.declare("jax_test", False)
 
     def setup(self):
         surfaces = self.options["surfaces"]
         rotational = self.options["rotational"]
+        jax_test = self.options['jax_test']
 
         coupled = om.Group()
 
@@ -286,7 +288,7 @@ class AerostructPoint(om.Group):
             aero_states = CompressibleVLMStates(surfaces=surfaces, rotational=rotational)
             prom_in = ["v", "alpha", "beta", "rho", "Mach_number"]
         else:
-            aero_states = VLMStates(surfaces=surfaces, rotational=rotational)
+            aero_states = VLMStates(surfaces=surfaces, rotational=rotational, jax_test=jax_test)
             prom_in = ["v", "alpha", "beta", "rho"]
         if ground_effect:
             prom_in.append("height_agl")

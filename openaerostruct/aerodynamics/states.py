@@ -12,6 +12,7 @@ from openaerostruct.aerodynamics.mesh_point_forces import MeshPointForces
 from openaerostruct.aerodynamics.panel_forces import PanelForces
 from openaerostruct.aerodynamics.panel_forces_surf import PanelForcesSurf
 from openaerostruct.aerodynamics.vortex_mesh import VortexMesh
+from openaerostruct.aerodynamics.aero_functional import AeroFunctionalVLM
 
 
 class VLMStates(om.Group):
@@ -24,10 +25,12 @@ class VLMStates(om.Group):
         self.options.declare(
             "rotational", False, types=bool, desc="Set to True to turn on support for computing angular velocities"
         )
+        self.options.declare("jax_test", False)
 
     def setup(self):
         surfaces = self.options["surfaces"]
         rotational = self.options["rotational"]
+        jax_test = self.options['jax_test']
 
         num_collocation_points = 0
         for surface in surfaces:
@@ -49,20 +52,43 @@ class VLMStates(om.Group):
         # Compute the vortex mesh based off the deformed aerodynamic mesh
         self.add_subsystem("vortex_mesh", VortexMesh(surfaces=surfaces), promotes_inputs=["*"], promotes_outputs=["*"])
 
-        # Get vectors from mesh points to collocation points
-        self.add_subsystem(
-            "get_vectors",
-            GetVectors(surfaces=surfaces, num_eval_points=num_collocation_points, eval_name="coll_pts"),
-            promotes_inputs=["*"],
-            promotes_outputs=["*"],
-        )
+        # Jax test - We are taking 3 components and combining them into one component that will use
+        # the OpenMDAO functional interface.
+        if jax_test:
 
-        # Construct matrix based on rings, not horseshoes
+            # Combines the following components.
+            # [get_vectors, mtx_assy, mtx_rhs]
+            # TODO: I ignored the rational component, since it isn't used in the examples.
+            self.add_subsystem(
+                'aero_functional',
+                AeroFunctionalVLM(surfaces=surfaces, num_eval_points=num_collocation_points, eval_name="coll_pts"),
+                promotes_inputs=["*"],
+                promotes_outputs=["*"],
+            )
+
+        else:
+            # Get vectors from mesh points to collocation points
+            self.add_subsystem(
+                "get_vectors",
+                GetVectors(surfaces=surfaces, num_eval_points=num_collocation_points, eval_name="coll_pts"),
+                promotes_inputs=["*"],
+                promotes_outputs=["*"],
+            )
+
+            # Construct matrix based on rings, not horseshoes
+            self.add_subsystem(
+                "mtx_assy",
+                EvalVelMtx(surfaces=surfaces, num_eval_points=num_collocation_points, eval_name="coll_pts"),
+                promotes_inputs=["*"],
+                promotes_outputs=["*"],
+            )
+
+            # Construct RHS and full matrix of system
+            self.add_subsystem("mtx_rhs", VLMMtxRHSComp(surfaces=surfaces), promotes_inputs=["*"], promotes_outputs=["*"])
+
+        # Solve Mtx RHS to get ring circs
         self.add_subsystem(
-            "mtx_assy",
-            EvalVelMtx(surfaces=surfaces, num_eval_points=num_collocation_points, eval_name="coll_pts"),
-            promotes_inputs=["*"],
-            promotes_outputs=["*"],
+            "solve_matrix", SolveMatrix(surfaces=surfaces), promotes_inputs=["*"], promotes_outputs=["*"]
         )
 
         # Convert freestream velocity to array of velocities
@@ -79,14 +105,6 @@ class VLMStates(om.Group):
             ConvertVelocity(surfaces=surfaces, rotational=rotational),
             promotes_inputs=["*"],
             promotes_outputs=["*"],
-        )
-
-        # Construct RHS and full matrix of system
-        self.add_subsystem("mtx_rhs", VLMMtxRHSComp(surfaces=surfaces), promotes_inputs=["*"], promotes_outputs=["*"])
-
-        # Solve Mtx RHS to get ring circs
-        self.add_subsystem(
-            "solve_matrix", SolveMatrix(surfaces=surfaces), promotes_inputs=["*"], promotes_outputs=["*"]
         )
 
         # Convert ring circs to horseshoe circs

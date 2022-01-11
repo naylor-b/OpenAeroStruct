@@ -81,7 +81,7 @@ prob.model.add_subsystem(name, aerostruct_group)
 point_name = "AS_point_0"
 
 # Create the aero point group and add it to the model
-AS_point = AerostructPoint(surfaces=[surface])
+AS_point = AerostructPoint(surfaces=[surface], jax_test=True)
 
 prob.model.add_subsystem(
     point_name,
@@ -139,11 +139,13 @@ prob.model.add_objective("AS_point_0.fuelburn", scaler=1e-5)
 prob.setup(check=True)
 
 # Only run analysis
-# prob.run_model()
+prob.run_model()
 
 # Run optimization
-prob.run_driver()
+#prob.run_driver()
 
 print()
 print("CL:", prob["AS_point_0.wing_perf.CL"])
 print("CD:", prob["AS_point_0.wing_perf.CD"])
+
+print('done')
