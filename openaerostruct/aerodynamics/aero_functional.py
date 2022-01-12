@@ -146,6 +146,7 @@ class AeroFunctionalVLM(om.ExplicitComponent):
         self.options.declare("surfaces", types=list)
         self.options.declare("num_eval_points", types=int)
         self.options.declare("eval_name", types=str)
+        self.options.declare("use_jax", types=bool, default=True)
 
     def setup(self):
         surfaces = self.options["surfaces"]
